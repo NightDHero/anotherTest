@@ -1,0 +1,621 @@
+@import url('https://fonts.googleapis.com/css2?family=Maname&display=swap');
+
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: "Maname", serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 30px;
+    background-color: rgb(51, 50, 50);
+    color: whitesmoke;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+
+    height: auto;
+    width: 85vw;
+    max-width: 600px;
+
+    padding: 0 20px 20px;
+
+    background-color: rgb(110, 109, 109);
+
+    border: 3px solid black;
+    text-align: center;
+
+
+    border-radius: 10px;
+    margin-bottom: 8px;
+
+}
+
+
+
+#bz-buy-price, #npc-sell-price {
+    margin: 10px 0;
+    padding: 5px;
+    width: 65%;
+    border: 1px solid black;
+    border-radius: 8px;
+}
+
+.calculate, .reset {
+    margin: 6px 0;
+}
+
+.calculate {
+    padding: 10px 20px;
+    background-color: rgb(97, 177, 97);
+    border: none;
+    border-radius: 8px;
+    cursor: crosshair;
+    width: 75%;
+    max-width: 300px;
+}
+
+.reset {
+    padding: 10px;
+    background-color: rgb(146, 172, 146);
+    border: none;
+    border-radius: 8px;
+    cursor: not-allowed;
+    width: 55%;
+}
+
+.calculate:hover {
+    background-color: rgb(18, 160, 79);
+    color: rgb(50, 42, 165);
+}
+
+.reset:hover {
+    background-color: rgb(49, 7, 7);
+    color: brown;
+}
+
+#result {
+    position: absolute;
+    translate: -50%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-start;
+
+    padding: 30px;
+    margin-top: 20px;
+    height: auto;
+
+    background-color: rgb(110, 109, 109);
+
+    border: 3px solid black;
+    border-radius: 10px;
+    inset: unset;
+}
+
+#result.hidden {
+    display: none;
+}
+
+.result-item {
+    font-size: clamp(0.1px, 5vw, 30px); /* Adjust size responsively */
+    white-space: nowrap; /* Prevent text from wrapping to the next line */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Add ellipsis for overflow text */
+    margin: 5px 0; /* Add margin for spacing */
+    padding: 5px; /* Add padding for better spacing */
+    border: 1px solid #ccc; /* Optional: Add border for better visibility */
+    border-radius: 5px; /* Optional: Add border radius for better look */
+    background-color: rgb(200, 200, 200); /* Optional: Background color */
+    color: black; /* Optional: Text color */
+}
+
+
+
+
+
+
+
+
+
+
+#settings-icon {
+    cursor: pointer;
+    transition: transform 0.6s ease;
+    height: 40px;
+    width: 40px;
+}
+
+
+
+#settings-icon.rotated {
+    transform: rotate(360deg) scale(1.3);
+}
+
+.settings-icon-container {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%; /* Make sure it stretches to the full height of the container */
+}
+
+
+ #settings-menu.expanded {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+
+
+#settings-menu {
+    position: absolute;
+    border-radius: 8px;
+
+    min-height: 380px;
+    height: auto;
+
+    width: 85vw;
+    max-width: 600px;
+
+    border-radius: 16px;
+    backdrop-filter: blur(8.5px);
+    -webkit-backdrop-filter: blur(8.5px);
+    border: 1px solid rgba(255, 255, 255, 0.58);
+    
+    z-index: 2; /* Ensure the menu is on top */
+    transform: translateY(-100%);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    opacity: 0;
+    
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+
+    font-size: 5vw;
+
+}
+
+
+.main {
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+    max-width: 30.65%;
+    margin: 10px;
+    
+    background: linear-gradient(to right, rgb(79, 42, 165), rgb(145, 5, 63));
+    background-clip: text;
+    color: transparent;
+
+    border: 1px solid linen;
+    border-radius: 12px;
+
+    user-select: none;
+
+    flex: 1 1 45%; /* Flex-grow: 1, Flex-shrink: 1, Flex-basis: 45% */
+    margin: 0.5rem;
+    min-width: 120px; /* Adjust based on your needs */
+    text-align: center;
+    font-size: clamp(12px, 5vw, 34px);
+}
+
+.main:hover {
+    border: 3px solid white;
+}
+
+
+.preview {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: stretch;
+
+    height: auto;
+    max-height: 355px;
+    background-color: rgb(110, 109, 109);
+
+    border: 3px solid black;
+    border-radius: 10px;
+    padding: 10px;
+
+    overflow: auto;
+
+}
+
+
+
+.preview .text{
+    z-index: 5;
+    position: relative;
+    cursor: default;
+        font-size: clamp(12px, 5vw, 34px);
+}
+
+.preview.hidden {
+    display: none;
+}
+
+.selection-border {
+    border: 3px solid purple;
+    transition: border 0.2s ease; /* Optional: adds a smooth transition effect */
+
+}
+
+.selection-border:hover {
+    border: 4px solid purple;
+}
+
+
+
+.adjustableTextbox {
+    position: absolute;
+    top: 35px;
+    right: -30px;
+
+    background-color: rgb(100, 100, 100);
+    color: black;
+    
+    border: 3px solid black;
+    border-radius: 20px;
+    user-select: none;
+
+    padding: 0 13px 13px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 1;
+    rotate: 10deg;
+}
+
+.checkbox-container {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between checkbox and buttons */
+}
+
+/* Style for the checkboxes */
+.checkbox-container input[type="checkbox"] {
+    /* Use clamp to control the size */
+    width: clamp(10px, 3vw, 30px); /* Adjust sizes as needed */
+    height: clamp(10px, 3vh, 30px); /* Adjust sizes as needed */
+    cursor: pointer;
+}
+
+/* Style for the checkbox labels */
+.checkbox-label {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+/* Ensure the .draggable.text element has flexbox layout for alignment */
+.draggable.text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Space between content */
+    font-size: clamp(12px, 5vw, 34px); /* Responsive font size */
+}
+
+
+.move-up, .move-down {
+    position: relative;
+    background: transparent;
+    border: none;
+    color: blue;
+    cursor: pointer;
+    font-size: clamp(12px, 5vw, 34px);
+    margin-top: 20px;
+}
+
+
+
+
+/* .sidebar {eq
+    position: absolute;
+    top: -10px;
+    left: -7px;
+    width: 45px;
+    height: 90%;
+    margin-top: 20px;
+
+    background-color: gray;
+
+    border: 1px solid rgb(34, 32, 32);
+    border-radius: 15px;
+}
+  */
+
+#save-icon {
+    position: absolute;
+    top: 45px;
+
+    height: 40px;
+    width: 40px;
+}
+
+.overlay {
+    position: absolute; /* Change to fixed for covering the whole screen */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    backdrop-filter: blur(8.5px); /* Apply blur effect */
+    -webkit-backdrop-filter: blur(8.5px); /* For Safari */
+    z-index: 1; /* Ensure it is behind the save-menu */
+  }
+
+
+
+
+
+.save-menu {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    z-index: 2; /* Ensure it is above the overlay */
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    padding: 30px;
+    margin-top: 20px;
+    height: auto;
+
+    border: 3px solid black;
+    border-radius: 10px;
+
+    background-color: rgb(110, 109, 109);
+    backdrop-filter: none; /* Remove blur effect from save menu itself */
+    -webkit-backdrop-filter: none; /* For Safari */
+}
+
+.create-item {
+    anchor-name: --create-save-anchor;
+
+    padding: 5px;
+    padding-bottom: 15px;
+    margin-right: 15px;
+
+    border: 2px solid black;
+    border-radius: 10px;
+    font-size: clamp(12px, 5vw, 34px);
+
+}
+
+.current-save {
+    anchor-name: --current-save-anchor;
+    border: 2px solid black;
+    border-radius: 10px;
+    font-size: clamp(12px, 5vw, 34px);
+    padding: 5px;
+    padding-bottom: 15px;
+}
+/* .delete-save {
+    border: 2px solid black;
+    border-radius: 10px;
+    font-size: clamp(12px, 5vw, 34px);
+    padding: 5px;
+    padding-bottom: 15px;
+} */
+
+.save-name {
+    position: absolute;
+    position-anchor: --create-save-anchor;
+    top: anchor(bottom);
+    left: anchor(left);
+    right: anchor(right);
+    
+
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    margin-top: 10px;
+
+    height: fit-content;
+
+}
+
+.save-buy-price {
+    position: absolute;
+    position-anchor: --create-save-anchor;
+    top: anchor(bottom);
+    left: anchor(left);
+    right: anchor(right);
+
+
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    margin-top: 50px;
+
+    height: fit-content;
+}
+
+.save-sell-price {
+    position: absolute;
+    position-anchor: --create-save-anchor;
+    top: anchor(bottom);
+    left: anchor(left);
+    right: anchor(right);
+
+
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    margin-top: 90px;
+
+    height: fit-content;
+}
+
+.save-item {
+    position: absolute;
+    position-anchor: --create-save-anchor;
+    top: anchor(bottom);
+    left: anchor(left);
+    right: anchor(right);
+
+    padding-bottom: 10px;
+    background-color: rgb(97, 177, 97);
+    border: none;
+    border-radius: 8px;
+    cursor: crosshair;
+
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    margin-top: 130px;
+
+    font-size: clamp(12px, 2vw, 24px);
+    height: fit-content;
+    text-wrap: nowrap;
+}
+
+
+.current-save-box {
+    position: absolute;
+    position-anchor: --current-save-anchor;
+
+    top: anchor(bottom);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: center;
+    
+
+    width: 95%;
+
+    margin-top: 10px;
+
+    min-height: 80px;
+    height: fit-content;
+    max-height: 180px;
+    overflow-y: auto;
+
+    
+    padding-bottom: 10px;
+    background-color: rgb(97, 177, 97);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+
+
+ 
+    border: 1px dotted black;
+    font-size: clamp(12px, 2vw, 24px);
+    text-wrap: nowrap;
+
+    background-color: rgb(81, 97, 90);
+}
+
+
+.summary-save-item {
+    anchor-name: --summary-save-item;
+    font-size: 1.4rem;
+}
+
+
+.checkmark {
+    position: absolute;
+    position-anchor: --summary-save-item;
+    left: anchor(right);
+    top: anchor(top);
+
+
+    margin-top: 3px;
+    margin-left: 5px;
+    color: yellowgreen;
+}
+
+.delete {
+    position: absolute;
+    position-anchor: --summary-save-item;
+    left: anchor(right);
+    top: anchor(top);
+
+
+    margin-top: 3px;
+    margin-left: 23px;
+}
+
+
+.edit {
+    position: absolute;
+    position-anchor: --summary-save-item;
+    left: anchor(right);
+    top: anchor(top);
+
+
+    margin-top: 3px;
+    margin-left: 43px;
+}
+
+.bottom-padding {
+    padding-bottom: 200px;
+}
+
+
+.empty-message {
+    text-align: center;
+    color: rgb(39, 197, 202);
+    margin-top: 20px;
+    font-size: 1.2em;
+    text-wrap: wrap;
+}
+
+.hidden {
+    display: none;
+}
+
